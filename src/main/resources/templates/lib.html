@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library</title>
+    <link rel="stylesheet" type="text/css" href="./style1.css" />
+</head>
+<body>
+<nav class="navbar">
+
+    <ul class="navbar-nav">
+        <li><a href="dashboard" class="button">Back To Dashboard</a></li>
+    </ul>
+</nav>
+
+
+<div id="main">
+    <h1>Library</h1>
+
+</div>
+
+
+<table>
+    <thead>
+    <tr>
+        <th colspan="4"> Library</th>
+    </tr>
+    </thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Author Name</th>
+        <th>Publisher Name</th>
+    </tr>
+
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td><span th:text="${book.id}"> Id </span></td>
+        <td><span th:text="${book.title}"> Title </span></td>
+        <td><span th:text="${book.authorName}"> Author Name </span></td>
+        <td><span th:text="${book.publisherName}"> Publisher Name </span></td>
+
+
+    </tr>
+    </tbody>
+
+
+</table>
+
+
+</body>
+</html>

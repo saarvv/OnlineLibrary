@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  http:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db_library
+    username: postgres
+    password: postgres
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+      use_jdbc_metadata_defaults: false
+
+
+spring.main.allow-circular-references: true
+
+
+

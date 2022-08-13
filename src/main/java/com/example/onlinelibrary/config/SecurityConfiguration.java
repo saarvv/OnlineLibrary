@@ -1,0 +1,47 @@
+package com.example.onlinelibrary.config;
+
+import com.example.onlinelibrary.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
+
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private IUserService iUserService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf().disable().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")).
+                and().authorizeRequests().antMatchers("/login", "/register", "/registration", "/js/", "/css/", "/img/", "/webjars/", "/", "dashboard", "all", "fav", "lib", "upload", "publisher", "publisherlogin", "publishersignup", "uploadlist").permitAll().
+                antMatchers("/dashboard").fullyAuthenticated().
+                and().logout().logoutSuccessUrl("/");
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(iUserService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+}

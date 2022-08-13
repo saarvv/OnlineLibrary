@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Books</title>
+    <link rel="stylesheet" type="text/css" href="./style1.css" />
+</head>
+<body>
+<nav class="navbar">
+    <ul class="navbar-nav">
+        <li><a href="dashboard" class="button">Back To Dashboard</a></li>
+    </ul>
+</nav>
+
+<div id="main">
+    <h1>All Books</h1>
+
+    <div class="topnav">
+        <input type="text" placeholder="Search..">
+    </div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th colspan="8">Books</th>
+        </tr>
+        </thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Author Name</th>
+            <th>Publisher Name</th>
+            <th>Add to Library</th>
+            <th>Add to Favorites</th>
+            <th>Upload File</th>
+            <th>Download link</th>
+        </tr>
+
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td><span th:text="${book.id}"> Id </span></td>
+            <td><span th:text="${book.title}"> Title </span></td>
+            <td><span th:text="${book.authorName}"> Author Name </span></td>
+            <td><span th:text="${book.publisherName}"> Publisher Name </span></td>
+            <td><a th:href="@{|/lib?id=${book.id}|}" class="button">Add to Library</a></td>
+            <td><a th:href="@{|/fav?id=${book.id}|}" class="button">Add to Favorite</a></td>
+            <td>
+                <form th:action="@{|/upload?id=${book.id}|}" method="post" enctype="multipart/form-data">
+                    <label for="myfile">Select a file:</label>
+                    <input type="file" id="myfile" name="multipartFile" >
+                    <br /><br />
+                    <input type="submit" value="Upload" class="button">
+                </form>
+            </td>
+            <td><a th:href="@{|/books/download?id=${book.id}|}"><span>Download</span></a></td>
+
+
+
+
+        </tr>
+        </tbody>
+
+
+    </table>
+
+    <form action="" th:action="@{/books/save}" th:object="${book}" method="post">
+        <div class="txt_field">
+            <input type="text" name="Title" required>
+            <label>Title</label>
+        </div>
+        <div class="txt_field">
+            <input type="text" name="AuthorName" required>
+            <label>AuthorName</label>
+        </div>
+        <div class="txt_field">
+            <input type="text" name="PublisherName" required>
+            <label>PublisherName</label>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" class="button">
+        </p>
+
+    </form>
+
+    <form th:action="@{|/excelUpload|}" method="post" enctype="multipart/form-data">
+        <label for="myfile">Select an Excel file:</label>
+        <input type="file" id="files" name="file">
+        <br /><br />
+        <input type="submit" value="Upload" class="button">
+    </form>
+
+
+</div>
+
+</body>
+</html>
