@@ -20,7 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.csrf().disable().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")).
                 and().authorizeRequests().antMatchers("/login", "/register", "/registration", "/js/", "/css/", "/img/", "/webjars/", "/", "dashboard", "all", "fav", "lib", "upload", "publisher", "publisherlogin", "publishersignup", "uploadlist").permitAll().
                 antMatchers("/dashboard").fullyAuthenticated().

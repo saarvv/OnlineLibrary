@@ -3,7 +3,6 @@ package com.example.onlinelibrary.service;
 import com.example.onlinelibrary.dto.AuthorDto;
 import com.example.onlinelibrary.model.Author;
 import com.example.onlinelibrary.repository.AuthorRepository;
-import com.example.onlinelibrary.repository.UserRepository;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -15,12 +14,10 @@ import java.util.List;
 @Service
 public class AuthorService implements IAuthorService {
     private final ModelMapper modelMapper;
-    private final UserRepository userRepository;
     private final AuthorRepository authorRepository;
 
-    public AuthorService(ModelMapper modelMapper, UserRepository userRepository, AuthorRepository authorRepository) {
+    public AuthorService(ModelMapper modelMapper, AuthorRepository authorRepository) {
         this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
         this.authorRepository = authorRepository;
     }
 

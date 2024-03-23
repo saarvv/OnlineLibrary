@@ -16,8 +16,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = FieldMatchValidator.class)
 @Documented //is used to include elements in annotations into javadoc
 public @interface FieldMatch {
-
-
     //payload: body in http req and response message
     String message() default "{constraint.field-match";
 

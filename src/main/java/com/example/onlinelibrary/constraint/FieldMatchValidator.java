@@ -1,9 +1,9 @@
 package com.example.onlinelibrary.constraint;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
 
@@ -14,7 +14,6 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     public void initialize(final FieldMatch constraintAnnotation) {
         firstFieldName = constraintAnnotation.first();
         secondFieldName = constraintAnnotation.second();
-
     }
 
     @Override
@@ -23,7 +22,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         try {
             final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
             final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
-            valid = firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
+            valid = (firstObj == null && secondObj == null) || (firstObj != null && firstObj.equals(secondObj));
         } catch (final Exception ignore) {
 
         }

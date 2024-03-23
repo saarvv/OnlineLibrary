@@ -66,7 +66,7 @@ public class BookController {
 
     @SneakyThrows
     @PostMapping("/books/save")
-    public String Library(@ModelAttribute("book") BookDto bookDto) {
+    public String library(@ModelAttribute("book") BookDto bookDto) {
         System.out.println(bookDto);
         bookService.save(bookDto);
         return "redirect:/all";
