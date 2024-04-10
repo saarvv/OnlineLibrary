@@ -10,7 +10,6 @@ import java.util.List;
 @Service
 public class FileService implements IFileService {
 
-
     @Autowired
     private FileRepository fileRepository;
 
@@ -18,7 +17,6 @@ public class FileService implements IFileService {
     public void save(File file) {
         fileRepository.save(file);
     }
-
 
     public File getFile(Long id) {
         return fileRepository.findById(id).get();

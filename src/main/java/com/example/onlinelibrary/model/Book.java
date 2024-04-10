@@ -36,6 +36,4 @@ public class Book {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file", referencedColumnName = "id")
     private File file;
-
-
 }

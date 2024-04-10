@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IPublisherService {
 
-    public PublisherDto save(PublisherDto publisherDto);
+    PublisherDto save(PublisherDto publisherDto);
 
-    public List<PublisherDto> getAll() throws NotFoundException;
+    List<PublisherDto> getAll() throws NotFoundException;
 
-    public List<PublisherDto> findAllByName(String name) throws NotFoundException;
+    List<PublisherDto> findAllByName(String name) throws NotFoundException;
 }

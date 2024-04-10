@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>All Books</title>
-    <link rel="stylesheet" type="text/css" href="./style1.css" />
+    <link rel="stylesheet" type="text/css" href="./style1.css"/>
 </head>
 <body>
 <nav class="navbar">
@@ -20,7 +20,6 @@
     <div class="topnav">
         <input type="text" placeholder="Search..">
     </div>
-
 
     <table>
         <thead>
@@ -50,20 +49,15 @@
             <td>
                 <form th:action="@{|/upload?id=${book.id}|}" method="post" enctype="multipart/form-data">
                     <label for="myfile">Select a file:</label>
-                    <input type="file" id="myfile" name="multipartFile" >
-                    <br /><br />
+                    <input type="file" id="myfile" name="multipartFile">
+                    <br/><br/>
                     <input type="submit" value="Upload" class="button">
                 </form>
             </td>
             <td><a th:href="@{|/books/download?id=${book.id}|}"><span>Download</span></a></td>
 
-
-
-
         </tr>
         </tbody>
-
-
     </table>
 
     <form action="" th:action="@{/books/save}" th:object="${book}" method="post">
@@ -83,18 +77,14 @@
         <p>
             <input type="submit" value="Save" class="button">
         </p>
-
     </form>
 
     <form th:action="@{|/excelUpload|}" method="post" enctype="multipart/form-data">
         <label for="myfile">Select an Excel file:</label>
         <input type="file" id="files" name="file">
-        <br /><br />
+        <br/><br/>
         <input type="submit" value="Upload" class="button">
     </form>
-
-
 </div>
-
 </body>
 </html>

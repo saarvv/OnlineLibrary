@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-
     @Query("select u from User u where u.username =:username ")
     User findByUsername(@Param(value = "username") String username);
 
@@ -26,5 +25,4 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
     @Query("select u from User u where u.username like %:username% or u.password like %:password%")
     List<User> findByUsernameOrPassword(String username, String password);
-
 }

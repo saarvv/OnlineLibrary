@@ -15,9 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -87,8 +85,8 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public List<BookDto> SearchBookByTitle(String title) throws NotFoundException {
-        List<Book> books = bookRepository.SearchBooksByTitle(title.trim());
+    public List<BookDto> searchBookByTitle(String title) throws NotFoundException {
+        List<Book> books = bookRepository.searchBooksByTitle(title.trim());
         if (books.size() < 1) {
             throw new NotFoundException("Book doesn't exist");
         }
@@ -97,10 +95,16 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public List<BookDto> findByAuthorName(String name) throws NotFoundException {
+        List<Book> books = bookRepository.findByAuthorName(name);
+        BookDto[] bookDtos = modelMapper.map(books, BookDto[].class);
+        return Arrays.asList(bookDtos);
+    }
+
+    @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
-
 
     public Book save(Book book) {
         return bookRepository.save(book);

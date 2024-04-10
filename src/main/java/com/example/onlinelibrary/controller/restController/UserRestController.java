@@ -42,6 +42,5 @@ public class UserRestController {
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));
     }
-
 }
 

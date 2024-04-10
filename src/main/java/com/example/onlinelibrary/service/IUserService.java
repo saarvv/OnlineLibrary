@@ -13,6 +13,4 @@ public interface IUserService extends UserDetailsService {
     User save(UserDto userDto);
 
     UserDto findByUsernameOrPassword(String username, String password) throws NotFoundException;
-
-
 }

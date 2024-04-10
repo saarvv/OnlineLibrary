@@ -17,7 +17,6 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
         File file = fileService.getFile(id);

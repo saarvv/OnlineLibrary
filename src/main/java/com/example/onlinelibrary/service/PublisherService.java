@@ -4,7 +4,6 @@ package com.example.onlinelibrary.service;
 import com.example.onlinelibrary.dto.PublisherDto;
 import com.example.onlinelibrary.model.Publisher;
 import com.example.onlinelibrary.repository.PublisherRepository;
-import com.example.onlinelibrary.repository.UserRepository;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +16,11 @@ import java.util.List;
 public class PublisherService implements IPublisherService {
 
     private final ModelMapper modelMapper;
-    private final UserRepository userRepository;
     @Autowired
     private final PublisherRepository publisherRepository;
 
-    public PublisherService(ModelMapper modelMapper, UserRepository userRepository, PublisherRepository publisherRepository) {
+    public PublisherService(ModelMapper modelMapper, PublisherRepository publisherRepository) {
         this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
         this.publisherRepository = publisherRepository;
     }
 
@@ -41,6 +38,7 @@ public class PublisherService implements IPublisherService {
         PublisherDto[] publisherDtos = modelMapper.map(publishers, PublisherDto[].class);
         return Arrays.asList(publisherDtos);
     }
+
     @Override
     public List<PublisherDto> findAllByName(String name) throws NotFoundException {
         List<Publisher> publishers = publisherRepository.findByNameOrLastName(name, name);

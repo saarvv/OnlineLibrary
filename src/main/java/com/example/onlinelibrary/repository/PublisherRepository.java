@@ -10,9 +10,6 @@ import java.util.List;
 @Repository
 public interface PublisherRepository extends PagingAndSortingRepository<Publisher, Long> {
 
-    Publisher findAllByName(String name);
-
-
     @Query("select a from Publisher a where a.name like %:name% or a.lastName like %:lastName%")
     List<Publisher> findByNameOrLastName(String name, String lastName);
 }

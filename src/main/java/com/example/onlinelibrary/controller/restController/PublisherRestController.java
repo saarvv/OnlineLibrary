@@ -18,7 +18,6 @@ public class PublisherRestController {
     @Autowired
     private final PublisherService publisherService;
 
-
     public PublisherRestController(PublisherService publisherService) {
         this.publisherService = publisherService;
     }
@@ -39,6 +38,4 @@ public class PublisherRestController {
     public ResponseEntity<PublisherDto> createPublisher(@Valid @RequestBody PublisherDto publisherDto) {
         return ResponseEntity.ok(publisherService.save(publisherDto));
     }
-
 }
-

@@ -15,10 +15,8 @@ public class File {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private Long id;
     private String name;
-
     private String content;
     private String type;
-
     private String url;
     @Lob
     private byte[] data;

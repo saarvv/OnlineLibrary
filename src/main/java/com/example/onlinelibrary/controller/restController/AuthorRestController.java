@@ -36,6 +36,4 @@ public class AuthorRestController {
     public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody AuthorDto authorDto) {
         return ResponseEntity.ok(authorService.save(authorDto));
     }
-
 }
-

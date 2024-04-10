@@ -35,12 +35,11 @@ public class UserService implements IUserService {
     public List<UserDto> getAll() throws NotFoundException {
         List<User> users = (List<User>) userRepository.findAll();
         if (users.size() < 1) {
-            throw new NotFoundException("Project doesn't exist");
+            throw new NotFoundException("No user exist");
         }
         UserDto[] userDtos = modelMapper.map(users, UserDto[].class);
         return Arrays.asList(userDtos);
     }
-
 
     @Override
     public UserDto findByUsername(String username) throws NotFoundException {
@@ -73,7 +72,6 @@ public class UserService implements IUserService {
         } catch (Exception e) {
             throw new NotFoundException("User Doesn't Exist" + username);
         }
-
     }
 
     @Override
@@ -88,5 +86,4 @@ public class UserService implements IUserService {
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return Arrays.asList(new SimpleGrantedAuthority("user"));
     }
-
 }

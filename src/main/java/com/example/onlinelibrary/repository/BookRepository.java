@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +14,7 @@ import java.util.Optional;
 @Transactional
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
 
+    @Query("select b from Book b where b.authorName like %:authorName%")
     List<Book> findByAuthorName(String authorName);
 
     List<Book> findAll();
@@ -22,7 +22,6 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     @Query("select b from Book b where b.id = :bbb")
     Optional<Book> findById(@Param(value = "bbb") Long id);
 
-
     @Query("select b from Book b where b.title like %:title%")
-    List<Book> SearchBooksByTitle(String title);
+    List<Book> searchBooksByTitle(String title);
 }

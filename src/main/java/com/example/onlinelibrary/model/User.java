@@ -4,7 +4,9 @@ package com.example.onlinelibrary.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 
 @Data
@@ -32,7 +34,6 @@ public class User {
     @Column(name = "national_code")
     private Integer nationalCode;
 
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -48,12 +49,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "favorite_id"))
     private List<Book> favorite;
 
-
     public void addRole(Role role) {
         if (roles == null) {
             roles = new HashSet<Role>();
         }
         roles.add(role);
     }
-
 }

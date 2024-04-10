@@ -8,10 +8,9 @@ import java.util.List;
 
 public interface IAuthorService {
 
-    public AuthorDto save(AuthorDto authorDto);
+    AuthorDto save(AuthorDto authorDto);
 
-    public List<AuthorDto> getAll() throws NotFoundException;
+    List<AuthorDto> getAll() throws NotFoundException;
 
-    public List<AuthorDto> findAllByName(String name) throws NotFoundException;
-
+    List<AuthorDto> findAllByName(String name) throws NotFoundException;
 }

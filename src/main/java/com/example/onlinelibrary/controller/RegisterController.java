@@ -35,7 +35,6 @@ public class RegisterController {
         return "index";
     }
 
-
     @PostMapping("/login")
     public String authenticate(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
         Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
@@ -63,6 +62,4 @@ public class RegisterController {
         userService.save(userDto);
         return "login.html";
     }
-
-
 }
