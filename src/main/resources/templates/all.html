@@ -24,7 +24,7 @@
     <table>
         <thead>
         <tr>
-            <th colspan="8">Books</th>
+            <th colspan="9">Books</th>
         </tr>
         </thead>
         <tr>
@@ -36,6 +36,7 @@
             <th>Add to Favorites</th>
             <th>Upload File</th>
             <th>Download link</th>
+            <th>Delete</th>
         </tr>
 
         <tbody>
@@ -55,7 +56,11 @@
                 </form>
             </td>
             <td><a th:href="@{|/books/download?id=${book.id}|}"><span>Download</span></a></td>
-
+            <td>
+                <form action="" th:action="@{/books/delete}" th:object="${book}" method="delete">
+                    <input type="submit" value="Delete" class="button">
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -78,6 +83,7 @@
             <input type="submit" value="Save" class="button">
         </p>
     </form>
+
 
     <form th:action="@{|/excelUpload|}" method="post" enctype="multipart/form-data">
         <label for="myfile">Select an Excel file:</label>

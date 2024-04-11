@@ -9,6 +9,7 @@ import com.example.onlinelibrary.service.IBookService;
 import com.example.onlinelibrary.service.IFileService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,6 +71,14 @@ public class BookController {
         System.out.println(bookDto);
         bookService.save(bookDto);
         return "redirect:/all";
+    }
+
+    @SneakyThrows
+    @DeleteMapping("/books/delete")
+    public ResponseEntity<String> deleteBook(@PathVariable("id") Long id) {
+        bookRepository.deleteById(id);
+        bookService.delete(id);
+        return ResponseEntity.ok("Book deleted successfully!");
     }
 
     @SneakyThrows

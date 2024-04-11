@@ -17,6 +17,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     @Query("select b from Book b where b.authorName like %:authorName%")
     List<Book> findByAuthorName(String authorName);
 
+    @Override
+    void deleteById(Long id);
+
     List<Book> findAll();
 
     @Query("select b from Book b where b.id = :bbb")

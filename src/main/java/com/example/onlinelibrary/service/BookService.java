@@ -75,7 +75,6 @@ public class BookService implements IBookService {
 
     @Override
     public Boolean delete(Long id) throws NotFoundException {
-
         Optional<Book> book = bookRepository.findById(id);
         if (!book.isPresent()) {
             throw new NotFoundException("Book doesn't exist with this id: " + id);
