@@ -57,8 +57,10 @@
             </td>
             <td><a th:href="@{|/books/download?id=${book.id}|}"><span>Download</span></a></td>
             <td>
-                <form action="" th:action="@{/books/delete}" th:object="${book}" method="delete">
-                    <input type="submit" value="Delete" class="button">
+                <form action="" th:action="@{|/books/delete/${book.id}|}" method="post">
+                    <p>
+                        <input type="submit" value="Delete" class="button">
+                    </p>
                 </form>
             </td>
         </tr>

@@ -1,6 +1,5 @@
 package com.example.onlinelibrary.service;
 
-import com.example.onlinelibrary.dto.BookDto;
 import com.example.onlinelibrary.excel.ExcelFile;
 import com.example.onlinelibrary.model.Book;
 import com.example.onlinelibrary.repository.AuthorRepository;
@@ -49,28 +48,28 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public BookDto save(BookDto bookDto) throws Exception {
-        Book book = modelMapper.map(bookDto, Book.class);
+    public Book save(Book Book) throws Exception {
+        Book book = modelMapper.map(Book, Book.class);
 
-        bookDto.setId(book.getId());
-        bookDto.setAuthorName(book.getAuthorName());
-        bookDto.setPublisherName(book.getPublisherName());
+        Book.setId(book.getId());
+        Book.setAuthorName(book.getAuthorName());
+        Book.setPublisherName(book.getPublisherName());
         bookRepository.save(book);
-        return bookDto;
+        return Book;
     }
 
     @Override
-    public List<BookDto> getAll() throws NotFoundException {
+    public List<Book> getAll() throws NotFoundException {
 
         List<Book> books = (List<Book>) bookRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         if (books.size() < 1) {
             throw new NotFoundException("Book doesn't exist");
         }
-        BookDto[] bookDtos = modelMapper.map(books, BookDto[].class);
-        Arrays.asList(bookDtos).forEach(data -> {
-            data.setAuthorId(data.getAuthorId());
+        Book[] Books = modelMapper.map(books, Book[].class);
+        Arrays.asList(Books).forEach(data -> {
+            data.setAuthor(data.getAuthor());
         });
-        return Arrays.asList(bookDtos);
+        return Arrays.asList(Books);
     }
 
     @Override
@@ -84,28 +83,24 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public List<BookDto> searchBookByTitle(String title) throws NotFoundException {
+    public List<Book> searchBookByTitle(String title) throws NotFoundException {
         List<Book> books = bookRepository.searchBooksByTitle(title.trim());
         if (books.size() < 1) {
             throw new NotFoundException("Book doesn't exist");
         }
-        BookDto[] bookDtos = modelMapper.map(books, BookDto[].class);
-        return Arrays.asList(bookDtos);
+        Book[] Books = modelMapper.map(books, Book[].class);
+        return Arrays.asList(Books);
     }
 
     @Override
-    public List<BookDto> findByAuthorName(String name) throws NotFoundException {
+    public List<Book> findByAuthorName(String name) throws NotFoundException {
         List<Book> books = bookRepository.findByAuthorName(name);
-        BookDto[] bookDtos = modelMapper.map(books, BookDto[].class);
-        return Arrays.asList(bookDtos);
+        Book[] Books = modelMapper.map(books, Book[].class);
+        return Arrays.asList(Books);
     }
 
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
-    }
-
-    public Book save(Book book) {
-        return bookRepository.save(book);
     }
 }

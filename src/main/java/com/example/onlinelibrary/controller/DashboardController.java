@@ -4,6 +4,7 @@ import com.example.onlinelibrary.model.Book;
 import com.example.onlinelibrary.repository.BookRepository;
 import com.example.onlinelibrary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -42,16 +43,21 @@ public class DashboardController {
 
     @GetMapping("/fav")
     public String favoriteBooks(@RequestParam(value = "id", required = false) Long id, Model model) {
-        User userDetail = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        com.example.onlinelibrary.model.User user = userRepository.findByUsername(userDetail.getUsername());
-        List<Book> books = userRepository.findBookByFavorite(userDetail.getUsername());
-        if (id != null) {
-            Optional<Book> book = bookRepository.findById(id);
-            books.add(book.get());
-            user.setFavorite(books);
-            bookRepository.save(book.get());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            User userDetail = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            com.example.onlinelibrary.model.User user = userRepository.findByUsername(userDetail.getUsername());
+            List<Book> books = userRepository.findBookByFavorite(userDetail.getUsername());
+            if (id != null) {
+                Book book = bookRepository.findById(id).get();
+                if (!books.contains(book)) {
+                    books.add(book);
+                    user.setFavorite(books);
+                    bookRepository.save(book);
+                }
+            }
+            model.addAttribute("books", user.getFavorite());
         }
-        model.addAttribute("books", user.getFavorite());
         return "fav";
     }
 

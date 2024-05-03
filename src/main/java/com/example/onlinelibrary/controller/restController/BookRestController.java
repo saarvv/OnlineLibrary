@@ -1,7 +1,7 @@
 package com.example.onlinelibrary.controller.restController;
 
 
-import com.example.onlinelibrary.dto.BookDto;
+import com.example.onlinelibrary.model.Book;
 import com.example.onlinelibrary.service.BookService;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -22,24 +22,19 @@ public class BookRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDto>> getAll() throws NotFoundException {
+    public ResponseEntity<List<Book>> getAll() throws NotFoundException {
         return ResponseEntity.ok(bookService.getAll());
     }
 
     @GetMapping("/find/{title}")
-    public ResponseEntity<List<BookDto>> findByTitle(@PathVariable(name = "title", required = true) String name)
+    public ResponseEntity<List<Book>> findByTitle(@PathVariable(name = "title", required = true) String name)
             throws NotFoundException {
         return ResponseEntity.ok(bookService.searchBookByTitle(name));
     }
 
     @GetMapping("/find/{authorName}")
-    public ResponseEntity<List<BookDto>> findByAuthorName(@PathVariable(name = "authorName", required = true) String name)
+    public ResponseEntity<List<Book>> findByAuthorName(@PathVariable(name = "authorName", required = true) String name)
             throws NotFoundException {
         return ResponseEntity.ok(bookService.findByAuthorName(name));
-    }
-
-    @PostMapping
-    public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookDto bookDto) throws Exception {
-        return ResponseEntity.ok(bookService.save(bookDto));
     }
 }
