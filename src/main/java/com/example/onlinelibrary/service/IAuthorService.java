@@ -1,6 +1,6 @@
 package com.example.onlinelibrary.service;
 
-import com.example.onlinelibrary.dto.AuthorDto;
+import com.example.onlinelibrary.model.Author;
 import javassist.NotFoundException;
 
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IAuthorService {
 
-    AuthorDto save(AuthorDto authorDto);
+    Author save(Author author);
 
-    List<AuthorDto> getAll() throws NotFoundException;
+    List<Author> getAll() throws NotFoundException;
 
-    List<AuthorDto> findAllByName(String name) throws NotFoundException;
+    List<Author> findAllByName(String name) throws NotFoundException;
 }

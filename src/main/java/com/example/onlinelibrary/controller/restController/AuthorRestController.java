@@ -1,6 +1,6 @@
 package com.example.onlinelibrary.controller.restController;
 
-import com.example.onlinelibrary.dto.AuthorDto;
+import com.example.onlinelibrary.model.Author;
 import com.example.onlinelibrary.service.AuthorService;
 import javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +20,25 @@ public class AuthorRestController {
         this.authorService = authorService;
     }
 
+    @ModelAttribute("author")
+    public Author author() {
+        return new Author();
+    }
+
     @GetMapping
-    public ResponseEntity<List<AuthorDto>> getAll() throws NotFoundException {
-        List<AuthorDto> authorDtos = authorService.getAll();
-        return ResponseEntity.ok(authorDtos);
+    public ResponseEntity<List<Author>> getAll() throws NotFoundException {
+        List<Author> authors = authorService.getAll();
+        return ResponseEntity.ok(authors);
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<AuthorDto>> findAllByName(@RequestParam String name) throws NotFoundException {
-        List<AuthorDto> authorDtos = authorService.findAllByName(name);
-        return ResponseEntity.ok(authorDtos);
+    public ResponseEntity<List<Author>> findAllByName(@RequestParam String name) throws NotFoundException {
+        List<Author> authors = authorService.findAllByName(name);
+        return ResponseEntity.ok(authors);
     }
 
     @PostMapping
-    public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody AuthorDto authorDto) {
-        return ResponseEntity.ok(authorService.save(authorDto));
+    public ResponseEntity<Author> createAuthor(@Valid @RequestBody Author author) {
+        return ResponseEntity.ok(authorService.save(author));
     }
 }

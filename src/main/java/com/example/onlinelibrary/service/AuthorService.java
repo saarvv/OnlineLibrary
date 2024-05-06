@@ -1,6 +1,5 @@
 package com.example.onlinelibrary.service;
 
-import com.example.onlinelibrary.dto.AuthorDto;
 import com.example.onlinelibrary.model.Author;
 import com.example.onlinelibrary.repository.AuthorRepository;
 import javassist.NotFoundException;
@@ -22,29 +21,27 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public List<AuthorDto> getAll() throws NotFoundException {
+    public List<Author> getAll() throws NotFoundException {
         List<Author> authors = (List<Author>) authorRepository.findAll();
-        AuthorDto[] authorDtos = modelMapper.map(authors, AuthorDto[].class);
+        Author[] authorDtos = modelMapper.map(authors, Author[].class);
         return Arrays.asList(authorDtos);
     }
 
     @Override
-    public List<AuthorDto> findAllByName(String name) throws NotFoundException {
-        List<Author> authors = authorRepository.findByNameOrLastName(name, name);
+    public List<Author> findAllByName(String name) throws NotFoundException {
+        List<com.example.onlinelibrary.model.Author> authors = authorRepository.findByNameOrLastName(name, name);
         if (authors.size() < 1) {
             throw new NotFoundException("Author doesn't exist");
         }
-        AuthorDto[] authorDtos = modelMapper.map(authors, AuthorDto[].class);
+        Author[] authorDtos = modelMapper.map(authors, Author[].class);
         return Arrays.asList(authorDtos);
     }
 
     @Override
-    public AuthorDto save(AuthorDto authorDto) {
-        Author author = modelMapper.map(authorDto, Author.class);
+    public Author save(Author authorDto) {
+        com.example.onlinelibrary.model.Author author = modelMapper.map(authorDto, com.example.onlinelibrary.model.Author.class);
         authorRepository.save(author);
         authorDto.setId(author.getId());
         return authorDto;
     }
-
-
 }

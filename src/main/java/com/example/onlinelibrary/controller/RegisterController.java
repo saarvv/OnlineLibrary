@@ -1,6 +1,6 @@
 package com.example.onlinelibrary.controller;
 
-import com.example.onlinelibrary.dto.UserDto;
+import com.example.onlinelibrary.model.User;
 import com.example.onlinelibrary.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,8 +26,8 @@ public class RegisterController {
     }
 
     @ModelAttribute("user")
-    public UserDto userDto() {
-        return new UserDto();
+    public User userDto() {
+        return new User();
     }
 
     @GetMapping("/")
@@ -50,13 +50,13 @@ public class RegisterController {
 
     @GetMapping("/registration")
     public String showRegistrationForm(WebRequest request, Model model) {
-        UserDto userDto = new UserDto();
+        User userDto = new User();
         model.addAttribute("user", userDto);
         return "registration.html";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") UserDto userDto) {
+    public String register(@ModelAttribute("user") User userDto) {
         userDto.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         System.out.println(userDto);
         userService.save(userDto);

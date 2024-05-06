@@ -68,7 +68,6 @@ public class BookController {
     @SneakyThrows
     @PostMapping("/books/save")
     public String library(@ModelAttribute("book") Book Book) {
-        System.out.println(Book);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication && authentication.getPrincipal() instanceof User) {
             com.example.onlinelibrary.model.User user = userRepository.findByUsername(((User) authentication.getPrincipal()).getUsername());
@@ -99,30 +98,36 @@ public class BookController {
     @SneakyThrows
     @PostMapping("/upload")
     public String uploadFile(@RequestBody MultipartFile multipartFile, @RequestParam Long id) {
-        Book book = bookRepository.findById(id).get();
-        File file = new File();
-        file.setData(multipartFile.getBytes());
-        file.setContent(multipartFile.getContentType());
-        file.setName(multipartFile.getName());
-        fileService.save(file);
-        book.setFile(file);
-        bookService.save(book);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            Book book = bookRepository.findById(id).get();
+            File file = new File();
+            file.setData(multipartFile.getBytes());
+            file.setContent(multipartFile.getContentType());
+            file.setName(multipartFile.getName());
+            fileService.save(file);
+            book.setFile(file);
+            bookService.save(book);
+        }
         return "redirect:/all";
     }
 
     @GetMapping("/books/download")
-    public void downloadFile(@RequestParam("id") Long id, Model model, HttpServletResponse response) throws IOException {
+    public void downloadFile(@RequestParam("id") Long id, HttpServletResponse response) throws IOException {
         Optional<Book> book = bookRepository.findById(id);
         Optional<File> temp = fileRepository.findById(book.get().getFile().getId());
-        if (temp.isPresent()) {
-            File file = temp.get();
-            response.setContentType("application/octet-stream");
-            String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename = " + file.getId();
-            response.setHeader(headerKey, headerValue);
-            ServletOutputStream outputStream = response.getOutputStream();
-            outputStream.write(file.getData());
-            outputStream.close();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            if (temp.isPresent()) {
+                File file = temp.get();
+                response.setContentType("application/octet-stream");
+                String headerKey = "Content-Disposition";
+                String headerValue = "attachment; filename = " + file.getId();
+                response.setHeader(headerKey, headerValue);
+                ServletOutputStream outputStream = response.getOutputStream();
+                outputStream.write(file.getData());
+                outputStream.close();
+            }
         }
     }
 }

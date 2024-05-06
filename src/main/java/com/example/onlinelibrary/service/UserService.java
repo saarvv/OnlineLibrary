@@ -1,6 +1,5 @@
 package com.example.onlinelibrary.service;
 
-import com.example.onlinelibrary.dto.UserDto;
 import com.example.onlinelibrary.model.Role;
 import com.example.onlinelibrary.model.User;
 import com.example.onlinelibrary.repository.UserRepository;
@@ -32,20 +31,20 @@ public class UserService implements IUserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public List<UserDto> getAll() throws NotFoundException {
-        List<User> users = (List<User>) userRepository.findAll();
+    public List<User> getAll() throws NotFoundException {
+        List<com.example.onlinelibrary.model.User> users = (List<com.example.onlinelibrary.model.User>) userRepository.findAll();
         if (users.size() < 1) {
             throw new NotFoundException("No user exist");
         }
-        UserDto[] userDtos = modelMapper.map(users, UserDto[].class);
+        User[] userDtos = modelMapper.map(users, User[].class);
         return Arrays.asList(userDtos);
     }
 
     @Override
-    public UserDto findByUsername(String username) throws NotFoundException {
+    public User findByUsername(String username) throws NotFoundException {
         try {
-            User user = (User) userRepository.findByUsername(username);
-            UserDto userDto = modelMapper.map(user, UserDto.class);
+            com.example.onlinelibrary.model.User user = (com.example.onlinelibrary.model.User) userRepository.findByUsername(username);
+            User userDto = modelMapper.map(user, User.class);
             return userDto;
         } catch (Exception e) {
             throw new NotFoundException("User Doesn't exist with this name called: " + username);
@@ -53,8 +52,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User save(UserDto userDto) {
-        User user = new User();
+    public com.example.onlinelibrary.model.User save(User userDto) {
+        com.example.onlinelibrary.model.User user = new com.example.onlinelibrary.model.User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setUsername(userDto.getUsername());
@@ -64,10 +63,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDto findByUsernameOrPassword(String username, String password) throws NotFoundException {
+    public User findByUsernameOrPassword(String username, String password) throws NotFoundException {
         try {
-            User user = (User) userRepository.findByUsernameOrPassword(username, password);
-            UserDto userDto = modelMapper.map(user, UserDto.class);
+            com.example.onlinelibrary.model.User user = (com.example.onlinelibrary.model.User) userRepository.findByUsernameOrPassword(username, password);
+            User userDto = modelMapper.map(user, User.class);
             return userDto;
         } catch (Exception e) {
             throw new NotFoundException("User Doesn't Exist" + username);
@@ -76,7 +75,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        com.example.onlinelibrary.model.User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password");
         }

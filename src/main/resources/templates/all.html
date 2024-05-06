@@ -19,6 +19,15 @@
 
     <div class="topnav">
         <input type="text" placeholder="Search..">
+        <td>
+            <tr th:each="author : ${authors}">
+                <form th:action="@{|/author/find=${author.name}|}" method="get">
+                    <p>
+                        <input type="submit" value="Delete" class="button">
+                    </p>
+                </form>
+            </tr>
+        </td>
     </div>
 
     <table>
@@ -48,12 +57,14 @@
             <td><a th:href="@{|/lib?id=${book.id}|}" class="button">Add to Library</a></td>
             <td><a th:href="@{|/fav?id=${book.id}|}" class="button">Add to Favorite</a></td>
             <td>
-                <form th:action="@{|/upload?id=${book.id}|}" method="post" enctype="multipart/form-data">
-                    <label for="myfile">Select a file:</label>
+                <form th:action="@{|/upload?id=${book.id}|}" action="@{|/excelUpload|}" method="post"
+                      enctype="multipart/form-data">
+                    <label for="myfile">Select a file (Can be Excel):</label>
                     <input type="file" id="myfile" name="multipartFile">
                     <br/><br/>
                     <input type="submit" value="Upload" class="button">
                 </form>
+
             </td>
             <td><a th:href="@{|/books/download?id=${book.id}|}"><span>Download</span></a></td>
             <td>
@@ -84,14 +95,6 @@
         <p>
             <input type="submit" value="Save" class="button">
         </p>
-    </form>
-
-
-    <form th:action="@{|/excelUpload|}" method="post" enctype="multipart/form-data">
-        <label for="myfile">Select an Excel file:</label>
-        <input type="file" id="files" name="file">
-        <br/><br/>
-        <input type="submit" value="Upload" class="button">
     </form>
 </div>
 </body>

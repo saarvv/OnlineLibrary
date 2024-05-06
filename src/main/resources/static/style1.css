@@ -74,7 +74,8 @@ body{
     margin: 20px;
     line-height: 35px;
     justify-content: center;
-    text-align: center;
+    display: grid;
+    align-items: center;
 }
 .center label{
     margin: 5px;
@@ -106,7 +107,6 @@ body{
     padding: 7px 5px;
     border-radius: 5px;
     margin-right: 80px;
-    margin-top: 90px;
 }
 .center p{
     font-size: 20px;

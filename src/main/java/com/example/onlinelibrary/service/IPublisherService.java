@@ -1,16 +1,16 @@
 package com.example.onlinelibrary.service;
 
 
-import com.example.onlinelibrary.dto.PublisherDto;
+import com.example.onlinelibrary.model.Publisher;
 import javassist.NotFoundException;
 
 import java.util.List;
 
 public interface IPublisherService {
 
-    PublisherDto save(PublisherDto publisherDto);
+    Publisher save(Publisher publisher);
 
-    List<PublisherDto> getAll() throws NotFoundException;
+    List<Publisher> getAll() throws NotFoundException;
 
-    List<PublisherDto> findAllByName(String name) throws NotFoundException;
+    List<Publisher> findAllByName(String name) throws NotFoundException;
 }

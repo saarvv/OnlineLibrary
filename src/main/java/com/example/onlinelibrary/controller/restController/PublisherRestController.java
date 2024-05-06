@@ -1,6 +1,6 @@
 package com.example.onlinelibrary.controller.restController;
 
-import com.example.onlinelibrary.dto.PublisherDto;
+import com.example.onlinelibrary.model.Publisher;
 import com.example.onlinelibrary.service.PublisherService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +21,24 @@ public class PublisherRestController {
     public PublisherRestController(PublisherService publisherService) {
         this.publisherService = publisherService;
     }
-
+    @ModelAttribute("publisher")
+    public com.example.onlinelibrary.model.Publisher publisher() {
+        return new com.example.onlinelibrary.model.Publisher();
+    }
     @GetMapping
-    public ResponseEntity<List<PublisherDto>> getAll() throws NotFoundException {
-        List<PublisherDto> publisherDtos = publisherService.getAll();
-        return ResponseEntity.ok(publisherDtos);
+    public ResponseEntity<List<Publisher>> getAll() throws NotFoundException {
+        List<Publisher> publishers = publisherService.getAll();
+        return ResponseEntity.ok(publishers);
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<PublisherDto>> findAllByName(@RequestParam String name) throws NotFoundException {
-        List<PublisherDto> publisherDtos = publisherService.findAllByName(name);
-        return ResponseEntity.ok(publisherDtos);
+    public ResponseEntity<List<Publisher>> findAllByName(@RequestParam String name) throws NotFoundException {
+        List<Publisher> publishers = publisherService.findAllByName(name);
+        return ResponseEntity.ok(publishers);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<PublisherDto> createPublisher(@Valid @RequestBody PublisherDto publisherDto) {
-        return ResponseEntity.ok(publisherService.save(publisherDto));
+    public ResponseEntity<Publisher> createPublisher(@Valid @RequestBody Publisher publisher) {
+        return ResponseEntity.ok(publisherService.save(publisher));
     }
 }

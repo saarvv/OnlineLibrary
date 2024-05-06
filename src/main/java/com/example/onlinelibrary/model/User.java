@@ -1,15 +1,21 @@
 package com.example.onlinelibrary.model;
 
 
+import com.example.onlinelibrary.constraint.FieldMatch;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
 
 @Data
+@FieldMatch.List({
+        @FieldMatch(first = "username", second = "confirmUsername", message = "The username fields must match"),
+        @FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")
+})
 @Entity
 @Table(name = "users")
 public class User {
@@ -19,15 +25,19 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NotEmpty
     @Column(name = "first_name")
     private String firstName;
 
+    @NotEmpty
     @Column(name = "last_name")
     private String lastName;
 
+    @NotEmpty
     @Column(name = "username", unique = true)
     private String username;
 
+    @NotEmpty
     @Column(name = "password")
     private String password;
 

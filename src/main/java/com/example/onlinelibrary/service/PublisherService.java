@@ -1,7 +1,6 @@
 package com.example.onlinelibrary.service;
 
 
-import com.example.onlinelibrary.dto.PublisherDto;
 import com.example.onlinelibrary.model.Publisher;
 import com.example.onlinelibrary.repository.PublisherRepository;
 import javassist.NotFoundException;
@@ -25,7 +24,7 @@ public class PublisherService implements IPublisherService {
     }
 
     @Override
-    public PublisherDto save(PublisherDto publisherDto) {
+    public Publisher save(Publisher publisherDto) {
         Publisher publisher = modelMapper.map(publisherDto, Publisher.class);
         publisherRepository.save(publisher);
         publisherDto.setId(publisher.getId());
@@ -33,16 +32,16 @@ public class PublisherService implements IPublisherService {
     }
 
     @Override
-    public List<PublisherDto> getAll() throws NotFoundException {
+    public List<Publisher> getAll() throws NotFoundException {
         List<Publisher> publishers = (List<Publisher>) publisherRepository.findAll();
-        PublisherDto[] publisherDtos = modelMapper.map(publishers, PublisherDto[].class);
+        Publisher[] publisherDtos = modelMapper.map(publishers, Publisher[].class);
         return Arrays.asList(publisherDtos);
     }
 
     @Override
-    public List<PublisherDto> findAllByName(String name) throws NotFoundException {
+    public List<Publisher> findAllByName(String name) throws NotFoundException {
         List<Publisher> publishers = publisherRepository.findByNameOrLastName(name, name);
-        PublisherDto[] publisherDtos = modelMapper.map(publishers, PublisherDto[].class);
+        Publisher[] publisherDtos = modelMapper.map(publishers, Publisher[].class);
         return Arrays.asList(publisherDtos);
     }
 }
