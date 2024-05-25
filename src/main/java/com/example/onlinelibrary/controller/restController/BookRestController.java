@@ -26,13 +26,13 @@ public class BookRestController {
         return ResponseEntity.ok(bookService.getAll());
     }
 
-    @GetMapping("/find/{title}")
+    @PostMapping("/find/{title}")
     public ResponseEntity<List<Book>> findByTitle(@PathVariable(name = "title", required = true) String name)
             throws NotFoundException {
         return ResponseEntity.ok(bookService.searchBookByTitle(name));
     }
 
-    @GetMapping("/find/{authorName}")
+    @PostMapping("/find/{authorName}")
     public ResponseEntity<List<Book>> findByAuthorName(@PathVariable(name = "authorName", required = true) String name)
             throws NotFoundException {
         return ResponseEntity.ok(bookService.findByAuthorName(name));

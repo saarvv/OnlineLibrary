@@ -18,16 +18,14 @@
     <h1>All Books</h1>
 
     <div class="topnav">
-        <input type="text" placeholder="Search..">
-        <td>
-            <tr th:each="author : ${authors}">
-                <form th:action="@{|/author/find=${author.name}|}" method="get">
-                    <p>
-                        <input type="submit" value="Delete" class="button">
-                    </p>
-                </form>
-            </tr>
-        </td>
+        <form action="" th:action="@{|/books/find/${book.getTitle()}|}" method="post">
+            <p>
+                <button type="submit">Search</button>
+                <input type="text" name="query" placeholder="Search...">
+            </p>
+
+        </form>
+
     </div>
 
     <table>

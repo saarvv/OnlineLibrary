@@ -12,4 +12,8 @@ public interface AuthorRepository extends PagingAndSortingRepository<Author, Lon
 
     @Query("select a from Author a where a.name like %:name% or a.lastName like %:lastName%")
     List<Author> findByNameOrLastName(String name, String lastName);
+
+    @Query("select a from Author a where a.name like %:name% or a.lastName like %:lastName%")
+    String searchAuthorByName(String name, String lastName);
+
 }

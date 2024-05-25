@@ -38,8 +38,8 @@ public class UserRestController {
     }
 
     @PostMapping
-    public ResponseEntity<com.example.onlinelibrary.model.User> createUser(@Valid @RequestBody User userDto) {
-        return ResponseEntity.ok(userService.save(userDto));
+    public ResponseEntity<com.example.onlinelibrary.model.User> createUser(@Valid @RequestBody User user) {
+        return ResponseEntity.ok(userService.save(user));
     }
 }
 

@@ -2,11 +2,11 @@ package com.example.onlinelibrary.controller;
 
 import com.example.onlinelibrary.model.Book;
 import com.example.onlinelibrary.model.File;
-import com.example.onlinelibrary.repository.BookRepository;
-import com.example.onlinelibrary.repository.FileRepository;
-import com.example.onlinelibrary.repository.UserRepository;
+import com.example.onlinelibrary.model.Publisher;
+import com.example.onlinelibrary.repository.*;
 import com.example.onlinelibrary.service.IBookService;
 import com.example.onlinelibrary.service.IFileService;
+import javassist.NotFoundException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,6 +29,10 @@ public class BookController {
 
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private PublisherRepository publisherRepository;
     private IBookService bookService;
     @Autowired
     private IFileService fileService;
@@ -65,13 +69,43 @@ public class BookController {
         return "all";
     }
 
+    @PostMapping("/findByAuthorName")
+    public String findByAuthorName(@RequestParam String name, Book book) throws NotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            String author = authorRepository.searchAuthorByName(((User) authentication.getPrincipal()).getUsername(), name);
+            return author;
+        }
+        throw new NotFoundException("Can not find your search");
+    }
+
+    @PostMapping("/find/{publisher}")
+    public List<Publisher> findByPublisherName(@PathVariable(name = "publisherName") String name) throws NotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            List<Publisher> authors = publisherRepository.findByNameOrLastName(((User) authentication.getPrincipal()).getUsername(), name);
+            return authors;
+        }
+        throw new NotFoundException("Can not find your search");
+    }
+
+    @PostMapping("/find/{title}")
+    public List<Book> findByTitle(@PathVariable(name = "title") String name) throws NotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            List<Book> authors = bookRepository.searchBooksByTitle(name);
+            return authors;
+        }
+        throw new NotFoundException("Can not find your search");
+    }
+
     @SneakyThrows
     @PostMapping("/books/save")
-    public String library(@ModelAttribute("book") Book Book) {
+    public String library(@ModelAttribute("book") Book book1) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication && authentication.getPrincipal() instanceof User) {
             com.example.onlinelibrary.model.User user = userRepository.findByUsername(((User) authentication.getPrincipal()).getUsername());
-            Book book = bookService.save(Book);
+            Book book = bookService.save(book1);
             user.getBooks().add(book);
             userRepository.save(user);
         }
