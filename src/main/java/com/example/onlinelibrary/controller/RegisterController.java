@@ -40,7 +40,7 @@ public class RegisterController {
         Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authenticated = daoAuthenticationProvider.authenticate(auth);
         SecurityContextHolder.getContext().setAuthentication(authenticated);
-        return "redirect:/dashboard";
+        return "redirect:/all";
     }
 
     @RequestMapping("/login")
