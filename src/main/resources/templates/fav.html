@@ -22,7 +22,7 @@
 <table>
     <thead>
     <tr>
-        <th colspan="4">Favorite Books</th>
+        <th colspan="5">Favorite Books</th>
     </tr>
     </thead>
     <tr>
@@ -30,6 +30,7 @@
         <th>Title</th>
         <th>Author Name</th>
         <th>Publisher Name</th>
+        <th>Remove From Favorites</th>
     </tr>
 
     <tbody>
@@ -38,6 +39,13 @@
         <td><span th:text="${book.title}"> Title </span></td>
         <td><span th:text="${book.authorName}"> Author Name </span></td>
         <td><span th:text="${book.publisherName}"> Publisher Name </span></td>
+        <td>
+            <form action="" th:action="@{|/books/remove/favorite/${book.id}|}" method="post">
+                <p>
+                    <input type="submit" value="Remove" class="button">
+                </p>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

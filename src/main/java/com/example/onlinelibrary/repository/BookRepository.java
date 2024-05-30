@@ -26,5 +26,5 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
     Optional<Book> findById(@Param(value = "bbb") Long id);
 
     @Query("select b from Book b where b.title like %:title%")
-    List<Book> searchBooksByTitle(String title);
+    Book searchBooksByTitle(@Param(value = "title") String title);
 }

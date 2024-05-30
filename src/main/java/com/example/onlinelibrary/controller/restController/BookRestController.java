@@ -27,7 +27,7 @@ public class BookRestController {
     }
 
     @PostMapping("/find/{title}")
-    public ResponseEntity<List<Book>> findByTitle(@PathVariable(name = "title", required = true) String name)
+    public ResponseEntity<Book> findByTitle(@PathVariable(name = "title", required = true) String name)
             throws NotFoundException {
         return ResponseEntity.ok(bookService.searchBookByTitle(name));
     }

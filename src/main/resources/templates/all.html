@@ -24,14 +24,12 @@
     <h1>All Books</h1>
 
     <div class="topnav">
-        <form action="" th:action="@{|/books/find/${book.getTitle()}|}" method="post">
-            <p>
-                <button type="submit">Search</button>
-                <input type="text" name="query" placeholder="Search...">
-            </p>
-
         </form>
 
+        <form th:action="@{|/books/find/${book.title}|}" method="post">
+            <input type="text" placeholder="Search.." name="search">
+            <input type="submit" value="search" class="fa fa-search">
+        </form>
     </div>
 
     <table>

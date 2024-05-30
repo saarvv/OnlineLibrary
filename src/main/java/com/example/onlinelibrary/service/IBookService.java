@@ -14,7 +14,7 @@ public interface IBookService {
 
     Boolean delete(Long id) throws NotFoundException;
 
-    List<Book> searchBookByTitle(String title) throws NotFoundException;
+    Book searchBookByTitle(String title) throws NotFoundException;
 
     List<Book> findByAuthorName(String name) throws NotFoundException;
 

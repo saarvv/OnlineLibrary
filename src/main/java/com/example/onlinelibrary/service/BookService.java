@@ -2,6 +2,7 @@ package com.example.onlinelibrary.service;
 
 import com.example.onlinelibrary.excel.ExcelFile;
 import com.example.onlinelibrary.model.Book;
+import com.example.onlinelibrary.model.User;
 import com.example.onlinelibrary.repository.AuthorRepository;
 import com.example.onlinelibrary.repository.BookRepository;
 import com.example.onlinelibrary.repository.UserRepository;
@@ -83,13 +84,14 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public List<Book> searchBookByTitle(String title) throws NotFoundException {
-        List<Book> books = bookRepository.searchBooksByTitle(title.trim());
-        if (books.size() < 1) {
-            throw new NotFoundException("Book doesn't exist");
+    public Book searchBookByTitle(String title) throws NotFoundException {
+        try {
+            Book books = bookRepository.searchBooksByTitle(title);
+            Book books1 = modelMapper.map(books, Book.class);
+            return books1;
+        } catch (Exception e) {
+            throw new NotFoundException("Book Doesn't exist with this title : " + title);
         }
-        Book[] Books = modelMapper.map(books, Book[].class);
-        return Arrays.asList(Books);
     }
 
     @Override

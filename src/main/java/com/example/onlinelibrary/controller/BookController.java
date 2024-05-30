@@ -1,5 +1,6 @@
 package com.example.onlinelibrary.controller;
 
+import com.example.onlinelibrary.model.Author;
 import com.example.onlinelibrary.model.Book;
 import com.example.onlinelibrary.model.File;
 import com.example.onlinelibrary.model.Publisher;
@@ -31,8 +32,6 @@ public class BookController {
     private BookRepository bookRepository;
     @Autowired
     private AuthorRepository authorRepository;
-    @Autowired
-    private PublisherRepository publisherRepository;
     private IBookService bookService;
     @Autowired
     private IFileService fileService;
@@ -69,44 +68,27 @@ public class BookController {
         return "all";
     }
 
-    @PostMapping("/findByAuthorName")
-    public String findByAuthorName(@RequestParam String name, Book book) throws NotFoundException {
+    @PostMapping("/books/find/{title}")
+    public Book findByTitle(@PathVariable(name = "title") String title) throws NotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication && authentication.getPrincipal() instanceof User) {
-            String author = authorRepository.searchAuthorByName(((User) authentication.getPrincipal()).getUsername(), name);
-            return author;
-        }
-        throw new NotFoundException("Can not find your search");
-    }
-
-    @PostMapping("/find/{publisher}")
-    public List<Publisher> findByPublisherName(@PathVariable(name = "publisherName") String name) throws NotFoundException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null != authentication && authentication.getPrincipal() instanceof User) {
-            List<Publisher> authors = publisherRepository.findByNameOrLastName(((User) authentication.getPrincipal()).getUsername(), name);
-            return authors;
-        }
-        throw new NotFoundException("Can not find your search");
-    }
-
-    @PostMapping("/find/{title}")
-    public List<Book> findByTitle(@PathVariable(name = "title") String name) throws NotFoundException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null != authentication && authentication.getPrincipal() instanceof User) {
-            List<Book> authors = bookRepository.searchBooksByTitle(name);
-            return authors;
+            Book books = bookService.searchBookByTitle(title);
+            return books;
         }
         throw new NotFoundException("Can not find your search");
     }
 
     @SneakyThrows
     @PostMapping("/books/save")
-    public String library(@ModelAttribute("book") Book book1) {
+    public String library(@ModelAttribute("book") Book book1, Author author, Publisher publisher) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (null != authentication && authentication.getPrincipal() instanceof User) {
             com.example.onlinelibrary.model.User user = userRepository.findByUsername(((User) authentication.getPrincipal()).getUsername());
             Book book = bookService.save(book1);
             user.getBooks().add(book);
+            author.setName(book.getAuthorName());
+            publisher.setName(book.getPublisherName());
+            authorRepository.save(author);
             userRepository.save(user);
         }
         return "redirect:/all";
@@ -127,6 +109,22 @@ public class BookController {
             }
         }
         return "redirect:/all";
+    }
+
+    @SneakyThrows
+    @Transactional
+    @PostMapping("/books/remove/favorite/{id}")
+    public String deleteFromFavorite(@PathVariable("id") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (null != authentication && authentication.getPrincipal() instanceof User) {
+            Book book = bookRepository.findById(id).get();
+            if (null != book) {
+                com.example.onlinelibrary.model.User user = userRepository.findByUsername(((User) authentication.getPrincipal()).getUsername());
+                user.getFavorite().remove(book);
+                userRepository.save(user);
+            }
+        }
+        return "redirect:/fav";
     }
 
     @SneakyThrows
